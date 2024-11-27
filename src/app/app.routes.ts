@@ -30,6 +30,14 @@ export const routes: Routes = [
                 loadComponent: () => import('./feature/conductores/formulario-conductor/formulario-conductor.component')
             },
             {
+                path: 'vehiculo',
+                loadComponent: () => import('./feature/autos/lista-autos/lista-autos.component')
+            },
+            {
+                path: 'vehiculo/register',
+                loadComponent: () => import('./feature/autos/formulario-autos/formulario-autos.component')
+            },
+            {
                 path: 'reservas',
                 loadComponent: () => import('./feature/reservas/reservas.component')
             },
