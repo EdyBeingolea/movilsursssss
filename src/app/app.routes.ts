@@ -26,6 +26,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./feature/conductores/listar-conductores/conductores.component')
             },
             {
+                path: 'conductor/register',
+                loadComponent: () => import('./feature/conductores/formulario-conductor/formulario-conductor.component')
+            },
+            {
                 path: 'reservas',
                 loadComponent: () => import('./feature/reservas/reservas.component')
             },
@@ -33,7 +37,7 @@ export const routes: Routes = [
                 path: 'envios',
                 loadComponent: () => import('./feature/envios/envios.component')
             },
-            
+
         ]
     },
     {

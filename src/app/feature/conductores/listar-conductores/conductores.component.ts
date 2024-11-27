@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-conductores',
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export default class ConductoresComponent {
+
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+
+  navegarAFormularioConductor() {
+    this.router.navigate(['register'], { relativeTo: this.route });
+  }
 
 }
