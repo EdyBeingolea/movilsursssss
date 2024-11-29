@@ -1,21 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Cliente } from '../../feature/usuario/item-usuario/usuario';
+import { Cliente } from '../interfaces/cliente';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioServiceService {
 
-  private url = 'http://18.225.3.240:8081/api/users/all';
-  private url2 = 'http://18.225.3.240:8081/api/users';
+  private url = 'https://670fb779a85f4164ef2b9edc.mockapi.io/api/v1/cliente';
   private http = inject(HttpClient);
 
-  listar(){
+  listarTodos(){
     return this.http.get<Cliente[]>(this.url);
   }
 
-  registrar(Cliente:Cliente){
-    return this.http.post<Cliente>(this.url2, Cliente);
+  listarPorId(id: string){
+    return this.http.get<Cliente>(`${this.url}/${id}`);
   }
+
+  guardar(cliente: Cliente){
+    return this.http.post<Cliente>(this.url, cliente);
+  }
+
 }

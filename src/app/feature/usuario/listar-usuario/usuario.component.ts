@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
-import { Cliente } from '../item-usuario/usuario';
 import { ActivatedRoute, Router, RouterEvent, RouterLink, RouterOutlet } from '@angular/router';
+import { Cliente } from '../../../core/interfaces/cliente';
 
 @Component({
   selector: 'app-usuario',
@@ -22,7 +22,7 @@ export default class UsuarioComponent implements OnInit {
   }
 
   listar(){
-    this.http.listar().subscribe(data => {
+    this.http.listarTodos().subscribe(data => {
       this.cliente = data;
     });
   }

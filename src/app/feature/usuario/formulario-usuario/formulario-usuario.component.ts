@@ -1,6 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { Cliente } from '../../../core/interfaces/cliente';
+import { Login } from '../../../core/interfaces/login';
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -10,78 +14,70 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styles: ``
 })
 export default class FormularioUsuarioComponent implements OnInit {
+
+  clienteFrom: FormGroup = new FormGroup<any>({});
+  loginFrom: FormGroup = new FormGroup<any>({});
+  cliente: Cliente[] = [];
+  login: Login[] = [];
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private service = inject(UsuarioServiceService);
+
+
   ngOnInit(): void {
-    this.initForm();
+    this.initClienteFrom();
+    this.initLoginFrom();
   }
 
-  userForm: FormGroup = new FormGroup<any>({});
-  private service = inject(UsuarioServiceService);
-  private fb = inject(FormBuilder);
-
-
-  initForm() {
-    this.userForm = this.fb.group({
-      firstName: ['',],
-      lastName: ['',],
-      documentType: ['',],
-      documentNumber: ['',],
-      email: ['',],
-      username: ['',],
-      password: ['',],
-      phone: ['',],
-      userPhoto: ['',],
-      address: ['',],
-      birthDate: ['',],
-      userType: ['CLI'],
+  initClienteFrom() {
+    this.clienteFrom = this.fb.group({
+      nombres: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      tipoDocumento: ['', Validators.required],
+      numeroDocumento: ['', Validators.required],
+      telefono: ['', Validators.required],
+      correo: ['', Validators.required],
+      direccion: ['', Validators.required],
+      fechaNacimiento: ['', Validators.required],
+      fotoPerfil: ['', Validators.required],
     })
   }
 
+  initLoginFrom() {
+    this.loginFrom = this.fb.group({
+      usuario: ['', Validators.required],
+      password: ['', Validators.required],
+      categoria: ['CLI', Validators.required],
+      fecha: [new DatePipe('en-US').transform(new Date(), 'dd-MM-yyyy')],
+    })
+  }
 
-  /*register() {
-    console.log(this.userForm.value);
-    this.service.registrar(this.userForm.value)
-      .subscribe(res => {
-        console.log('Persona:', res);
-        alert('Persona agregada');
-      });
-  }*/
-
-  register() {
-    if (this.userForm.invalid) {
-      alert('Por favor, completa todos los campos obligatorios.');
-      return;
-    }
-
-    const formValue = {
-      ...this.userForm.value,
-      birthDate: this.formatDate(this.userForm.value.birthDate), // Formateamos la fecha
+  guardarCliente() {
+    const cli: Cliente = {
+      ...this.clienteFrom.value,
+      login: [this.loginFrom.value]
     };
 
-    this.service.registrar(formValue).subscribe({
-      next: (res) => {
-        console.log('Persona registrada:', res);
-        alert('Usuario registrado exitosamente.');
-        this.userForm.reset();
-      },
-      error: (err) => {
-        console.error('Error al registrar usuario:', err);
-        alert('Ocurrió un error al registrar el usuario. Intenta nuevamente.');
-      },
+    this.cliente.push(cli);
+    this.service.guardar(cli).subscribe(data => {
+      console.log(data);
+      alert(`Examen creado con exito`);
+
+      this.navegarCliente();
     });
   }
 
-  formatDate(date: string): string {
-    const parsedDate = new Date(date); // Creamos un objeto Date
-    const day = String(parsedDate.getDate()).padStart(2, '0'); // Día (con ceros iniciales)
-    const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Mes (0-based, por eso sumamos 1)
-    const year = parsedDate.getFullYear(); // Año
 
-    return `${day}/${month}/${year}`;
+  navegarCliente() {
+    this.router.navigate(['/sidebar/usuario'], { relativeTo: this.route });
   }
 
 
-
-
-
-
 }
+
+
+
+
+
+

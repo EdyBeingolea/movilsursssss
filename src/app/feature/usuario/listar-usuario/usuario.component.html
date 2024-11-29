@@ -25,41 +25,41 @@
           <th scope="col" class="px-6 py-4 font-medium text-gray-900"></th>
         </tr>
       </thead>
+
       <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+        @for (item of cliente; track $index) {
         <tr class="hover:bg-gray-50">
           <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
             <div class="relative h-10 w-10">
-              <img class="h-full w-full rounded-full object-cover object-center"
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="" />
+              <img class="h-full w-full rounded-full object-cover object-center" src="{{item.fotoPerfil}}" alt="" />
               <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
             </div>
             <div class="text-sm">
-              <div class="font-medium text-gray-700">Steven Jobs</div>
-              <div class="text-gray-400">jobssailboatui.com</div>
+              <div class="font-medium text-gray-700">{{item.nombres}}</div>
+              <div class="text-gray-400"> {{item.apellidos}} </div>
             </div>
           </th>
           <td class="px-6 py-4">
             <span
               class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
               <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-              DNI
+              {{item.tipoDocumento}}
             </span>
           </td>
-          <td class="px-6 py-4">98565478</td>
+          <td class="px-6 py-4">{{item.numeroDocumento}}</td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              987457898
+              {{item.telefono}}
             </div>
           </td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              jobssailboatui.com
+              {{item.correo}}
             </div>
           </td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              San vicente de Cañete
+              {{item.direccion}}
             </div>
           </td>
           <td class="px-6 py-4">
@@ -96,6 +96,7 @@
             </div>
           </td>
         </tr>
+        }
       </tbody>
     </table>
   </div>

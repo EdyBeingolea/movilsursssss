@@ -2,11 +2,11 @@
     <h2 class="text-4xl pb-8 font-semibold text-center text-gray-700 capitalize ">Registrar Nuevo Usuario
     </h2>
 
-    <form [formGroup]="userForm" (ngSubmit)="register()">
-        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+    <form [formGroup]="loginFrom">
+        <div class=" grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
                 <label class="text-gray-700 font-medium">Nombre de Usuario</label>
-                <input formControlName="username" type="text"
+                <input formControlName="usuario" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
@@ -14,46 +14,50 @@
                 <input formControlName="password" type="password"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
+        </div>
+    </form>
+    <form action="" [formGroup]="clienteFrom">
+        <div class=" grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
             <div>
                 <label class="text-gray-700 font-medium">Nombres</label>
-                <input formControlName="firstName" type="text"
+                <input formControlName="nombres" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 font-medium">Apellidos</label>
-                <input formControlName="lastName" type="text"
+                <input formControlName="apellidos" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 font-medium">Tipo de Documento</label>
-                <input formControlName="documentType" type="text"
+                <input formControlName="tipoDocumento" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 font-medium">Numero de Documento</label>
-                <input formControlName="documentNumber" type="text"
+                <input formControlName="numeroDocumento" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 font-medium" for="emailAddress">Correo Electronico</label>
-                <input formControlName="email" type="email"
+                <input formControlName="correo" type="email"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
 
             <div>
                 <label class="text-gray-700 font-medium">Numero de Celular</label>
-                <input formControlName="phone" type="text"
+                <input formControlName="telefono" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
 
             <div>
                 <label class="text-gray-700 font-medium">Direccion</label>
-                <input formControlName="address" type="text"
+                <input formControlName="direccion" type="text"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div>
                 <label class="text-gray-700 font-medium">Fecha de Nacimiento</label>
-                <input formControlName="birthDate" type="date"
+                <input formControlName="fechaNacimiento" type="date"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
             </div>
             <div class="col-span-2">
@@ -70,7 +74,8 @@
                             <label for="file-upload"
                                 class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                                 <span>Upload a file</span>
-                                <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                <input id="file-upload" formControlName="fotoPerfil" name="file-upload" type="file"
+                                    class="sr-only">
                             </label>
                             <p class="pl-1">or drag and drop</p>
                         </div>
@@ -78,18 +83,16 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="flex justify-end  mt-6">
-            <button
-                class="px-8 py-2.5 mr-6 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-gray-600">Cancelar</button>
-            <button type="reset"
-                class="px-8 py-2.5 mr-6 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-yellow-500 focus:outline-none focus:bg-gray-600">Limpiar</button>
-            <button type="submit" [disabled]="userForm.invalid"
-                class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-gray-600">
-                Guardar
-            </button>
-
+            <div class="flex justify-end  mt-6">
+                <button
+                    class="px-8 py-2.5 mr-6 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-gray-600">Cancelar</button>
+                <button type="reset"
+                    class="px-8 py-2.5 mr-6 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-yellow-500 focus:outline-none focus:bg-gray-600">Limpiar</button>
+                <button type="submit" (click)="guardarCliente()"
+                    class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-gray-600">
+                    Guardar
+                </button>
+            </div>
         </div>
     </form>
 </section>
