@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { Cliente } from '../../../core/interfaces/cliente';
 import { Login } from '../../../core/interfaces/login';
+import { LoginServicesService } from '../../../core/services/login-services.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -15,14 +17,15 @@ import { Login } from '../../../core/interfaces/login';
 })
 export default class FormularioUsuarioComponent implements OnInit {
 
-  clienteFrom: FormGroup = new FormGroup<any>({});
-  loginFrom: FormGroup = new FormGroup<any>({});
+  clienteFrom: FormGroup = new FormGroup<any>('');
+  loginFrom: FormGroup = new FormGroup<any>('');
   cliente: Cliente[] = [];
   login: Login[] = [];
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private service = inject(UsuarioServiceService);
+  private service2 = inject(LoginServicesService);
 
 
   ngOnInit(): void {
@@ -49,24 +52,37 @@ export default class FormularioUsuarioComponent implements OnInit {
       usuario: ['', Validators.required],
       password: ['', Validators.required],
       categoria: ['CLI', Validators.required],
-      fecha: [new DatePipe('en-US').transform(new Date(), 'dd-MM-yyyy')],
     })
   }
 
   guardarCliente() {
-    const cli: Cliente = {
-      ...this.clienteFrom.value,
-      login: [this.loginFrom.value]
-    };
-
-    this.cliente.push(cli);
-    this.service.guardar(cli).subscribe(data => {
-      console.log(data);
-      alert(`Examen creado con exito`);
-
-      this.navegarCliente();
+    if (!this.clienteFrom.valid || !this.loginFrom.valid) {
+      alert('Por favor, completa los formularios correctamente.');
+      return;
+    }
+  
+    const cliente: Cliente = { ...this.clienteFrom.value };
+    const login: Login = { ...this.loginFrom.value };
+  
+    this.service.guardar(cliente).pipe(
+      switchMap((savedCliente: Cliente) => {
+        login.clienteId = savedCliente.id; // Asignar el ID del cliente al clienteId en Login
+        return this.service2.guardar(login); // Retorna el observable de guardar login
+      })
+    ).subscribe({
+      next: (savedLogin) => {
+        console.log('Cliente y Login guardados:', savedLogin);
+        alert('Cliente guardado con éxito');
+      },
+      error: (err) => {
+        console.error('Error al guardar cliente o login:', err);
+        alert('Ocurrió un error al guardar los datos.');
+      }
     });
   }
+  
+
+  
 
 
   navegarCliente() {
