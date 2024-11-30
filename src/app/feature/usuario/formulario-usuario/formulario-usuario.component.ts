@@ -73,6 +73,7 @@ export default class FormularioUsuarioComponent implements OnInit {
       next: (savedLogin) => {
         console.log('Cliente y Login guardados:', savedLogin);
         alert('Cliente guardado con éxito');
+        this.navegarCliente();
       },
       error: (err) => {
         console.error('Error al guardar cliente o login:', err);

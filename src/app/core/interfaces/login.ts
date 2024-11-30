@@ -3,5 +3,5 @@ export interface Login {
     password:  string;
     categoria: string;
     id?:        string;
-    clienteId?: string;
+    clienteId?: number;
 }

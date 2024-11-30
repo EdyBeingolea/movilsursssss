@@ -12,7 +12,7 @@ import { Cliente } from '../../../core/interfaces/cliente';
 export default class UsuarioComponent implements OnInit {
   
   cliente: Cliente[] = [];
-  private http = inject(UsuarioServiceService);
+  private service = inject(UsuarioServiceService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -22,9 +22,17 @@ export default class UsuarioComponent implements OnInit {
   }
 
   listar(){
-    this.http.listarTodos().subscribe(data => {
+    this.service.listarTodos().subscribe(data => {
       this.cliente = data;
     });
+  }
+
+  verdatos(id: number){
+    this.service.listarPorId(id).subscribe(data => {
+      console.log(data);
+      alert(`Nombre: ${data.nombres} ${data.apellidos} \nCorreo: ${data.correo} \nTelefono: ${data.telefono}`);
+    });
+
   }
 
   navigateRegisterPerson(){
