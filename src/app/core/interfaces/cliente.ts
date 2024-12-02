@@ -13,7 +13,7 @@ export interface Cliente {
     fechaRegistro?:   string;
     fotoPerfil:      string;
     estadoCliente:   string;
-    id:              number;
+    id:              string;
     login:           Login[];
 }
 

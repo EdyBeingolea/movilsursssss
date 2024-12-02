@@ -64,8 +64,8 @@
           </td>
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <button (click)="verdatos(item.id)" >
-                <div class="w-4 mr-2 transform hover:text-purple-500 " >
+              <button (click)="verdatos(item.id.toString())">
+                <div class="w-4 mr-2 transform hover:text-purple-500 ">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     class="h-6 w-6" x-tooltip="tooltip">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -75,7 +75,49 @@
                   </svg>
                 </div>
               </button>
-              <a x-data="{ tooltip: 'Delete' }" href="#">
+
+              <!--- Modal -->
+
+              @if (mostardatos) {
+                <!-- Agregamos backdrop-blur para desenfoque -->
+                <div class="fixed inset-0  bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50">
+                  <div class="bg-white rounded-lg p-8 w-[800px] shadow-2xl">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Información del Usuario</h2>
+                    <div class="space-y-4">
+                      <p><strong>Nombre:</strong> {{datosmodal?.nombres}}</p>
+                      <p><strong>Apellidos:</strong> {{datosmodal?.apellidos}}</p>
+                      <p><strong>Tipo Documento:</strong> {{datosmodal?.tipoDocumento}}</p>
+                      <p><strong>Número Documento:</strong> {{datosmodal?.numeroDocumento}}</p>
+                      <p><strong>Teléfono:</strong> {{datosmodal?.telefono}}</p>
+                      <p><strong>Correo:</strong> {{datosmodal?.correo}}</p>
+                      <p><strong>Dirección:</strong> {{datosmodal?.direccion}}</p>
+                      <p><strong>Fecha de Nacimiento:</strong> {{datosmodal?.fechaNacimiento}}</p>
+                      <p><strong>Fecha de Registro:</strong> {{datosmodal?.fechaRegistro}}</p>
+                      <p><strong>Estado Cliente:</strong> {{datosmodal?.estadoCliente}}</p>
+                      <p><strong>Usuario:</strong> {{datosmodal?.usuario}}</p>
+                      <p><strong>Contraseña:</strong> {{datosmodal?.password}}</p>
+                    </div>
+                    <div class="mt-8 flex justify-end">
+                      <button
+                        class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-all duration-300"
+                        (click)="cerrardatos()">
+                        Cerrar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+              
+
+
+
+
+
+
+
+
+
+              <button x-data="{ tooltip: 'Delete' }" href="#">
                 <div class="w-4 mr-2 transform hover:text-red-500 ">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="h-6 w-6" x-tooltip="tooltip">
@@ -83,7 +125,7 @@
                       d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                   </svg>
                 </div>
-              </a>
+              </button>
               <a x-data="{ tooltip: 'Edite' }" href="#">
                 <div class="w-4 mr-2 transform hover:text-blue-500 ">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

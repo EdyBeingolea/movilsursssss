@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { formatDate } from '@angular/common';
 import { Cliente } from '../../../core/interfaces/cliente';
 import { Login } from '../../../core/interfaces/login';
 import { LoginServicesService } from '../../../core/services/login-services.service';
@@ -34,6 +34,7 @@ export default class FormularioUsuarioComponent implements OnInit {
   }
 
   initClienteFrom() {
+    const today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.clienteFrom = this.fb.group({
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
@@ -44,6 +45,8 @@ export default class FormularioUsuarioComponent implements OnInit {
       direccion: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
       fotoPerfil: ['', Validators.required],
+      fechaRegistro: [today, Validators.required],
+      estadoCliente: ['A', Validators.required],
     })
   }
 
@@ -60,10 +63,10 @@ export default class FormularioUsuarioComponent implements OnInit {
       alert('Por favor, completa los formularios correctamente.');
       return;
     }
-  
+
     const cliente: Cliente = { ...this.clienteFrom.value };
     const login: Login = { ...this.loginFrom.value };
-  
+
     this.service.guardar(cliente).pipe(
       switchMap((savedCliente: Cliente) => {
         login.clienteId = savedCliente.id; // Asignar el ID del cliente al clienteId en Login
@@ -81,9 +84,9 @@ export default class FormularioUsuarioComponent implements OnInit {
       }
     });
   }
-  
 
-  
+
+
 
 
   navegarCliente() {

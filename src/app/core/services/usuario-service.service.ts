@@ -14,7 +14,7 @@ export class UsuarioServiceService {
     return this.http.get<Cliente[]>(this.url);
   }
 
-  listarPorId(id: number){
+  listarPorId(id: string){
     return this.http.get<Cliente>(`${this.url}/${id}`);
   }
 

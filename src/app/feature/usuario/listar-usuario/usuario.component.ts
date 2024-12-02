@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
 import { ActivatedRoute, Router, RouterEvent, RouterLink, RouterOutlet } from '@angular/router';
 import { Cliente } from '../../../core/interfaces/cliente';
+import { LoginServicesService } from '../../../core/services/login-services.service';
 
 @Component({
   selector: 'app-usuario',
@@ -10,6 +11,9 @@ import { Cliente } from '../../../core/interfaces/cliente';
   templateUrl: './usuario.component.html',
 })
 export default class UsuarioComponent implements OnInit {
+
+  mostardatos : boolean = false;
+  datosmodal: any = null;
   
   cliente: Cliente[] = [];
   private service = inject(UsuarioServiceService);
@@ -27,16 +31,20 @@ export default class UsuarioComponent implements OnInit {
     });
   }
 
-  verdatos(id: number){
+  verdatos(id: string){
     this.service.listarPorId(id).subscribe(data => {
       console.log(data);
-      alert(`Nombre: ${data.nombres} ${data.apellidos} \nCorreo: ${data.correo} \nTelefono: ${data.telefono}`);
+      this.mostardatos = true;
+      this.datosmodal = data;
     });
+  }
 
+  cerrardatos(){
+    this.mostardatos = false;
   }
 
   navigateRegisterPerson(){
-    this.router.navigate(['register'],  { relativeTo: this.route }).then();
+    this.router.navigate(['register'], { relativeTo: this.route });
   }
 
 }
