@@ -18,8 +18,8 @@ import { forkJoin, switchMap } from 'rxjs';
 export default class FormularioUsuarioComponent implements OnInit {
 
   clienteId!: string;
-  clienteFrom: FormGroup = new FormGroup<any>('');
-  loginFrom: FormGroup = new FormGroup<any>('');
+  clienteFrom: FormGroup = new FormGroup<any>({});
+  loginFrom: FormGroup = new FormGroup<any>({});
   cliente!: Cliente | null;
   login!: Login | null;
   private fb = inject(FormBuilder);
@@ -61,8 +61,8 @@ export default class FormularioUsuarioComponent implements OnInit {
 
   initLoginFrom() {
     this.loginFrom = this.fb.group({
-      usuario: ['', Validators.required],
-      password: ['', Validators.required],
+      usuario: [''],
+      password: [''],
       categoria: ['CLI', Validators.required],
     });
   }
@@ -94,48 +94,61 @@ export default class FormularioUsuarioComponent implements OnInit {
       alert('Por favor, completa los formularios correctamente.');
       return;
     }
-
+  
     const cliente: Cliente = { ...this.clienteFrom.value };
     const login: Login = { ...this.loginFrom.value };
-
-    this.usuarioService.guardar(cliente).pipe(
-      switchMap((savedCliente: Cliente) => {
-        login.clienteId = savedCliente.id; // Asignar el ID del cliente al clienteId en Login
-        return this.loginService.guardar(login); // Retorna el observable de guardar login
-      })
-    ).subscribe({
+  
+    let saveOrUpdate$;
+  
+    if (this.clienteId) {
+      // Actualiza si el cliente ya existe
+      saveOrUpdate$ = this.usuarioService.actualizar(this.clienteId, cliente).pipe(
+        switchMap((updatedCliente: Cliente) => {
+          login.clienteId = updatedCliente.id;
+          if (this.login?.id) {
+            return this.loginService.actualizar(this.login.id, login);
+          }
+          return this.loginService.guardar(login); // En caso de que no haya un login asociado
+        })
+      );
+    } else {
+      // Crea un nuevo cliente
+      saveOrUpdate$ = this.usuarioService.guardar(cliente).pipe(
+        switchMap((savedCliente: Cliente) => {
+          login.clienteId = savedCliente.id;
+          return this.loginService.guardar(login);
+        })
+      );
+    }
+  
+    saveOrUpdate$.subscribe({
       next: () => {
         alert('Cliente y Login guardados correctamente.');
         this.navegarCliente();
       },
       error: (err) => {
-        console.error('Error al guardar cliente o login:', err);
-        alert('Ocurrió un error al guardar los datos.');
+        console.error('Error al guardar o actualizar cliente/login:', err);
+        alert('Ocurrió un error al procesar los datos.');
       }
     });
   }
+  
 
   actualizarCliente() {
-    if (!this.clienteFrom.valid) {
-      alert('Por favor, completa los datos del cliente correctamente.');
+    if (!this.clienteFrom.valid || !this.loginFrom.valid) {
+      alert('Por favor, completa los datos correctamente.');
       return;
     }
-
+  
     const cliente: Cliente = { ...this.clienteFrom.value };
     const login: Login = { ...this.loginFrom.value };
-
-    // Crear un array de observables para actualizar cliente y login
-    const updateRequests = [];
-
-    // Actualiza el cliente
-    updateRequests.push(this.usuarioService.actualizar(this.clienteId, cliente));
-
-    // Actualiza el login si existe (no crea uno nuevo)
-    if (this.login && this.login.id) {
-      updateRequests.push(this.loginService.actualizar(this.login.id, login));
-    }
-
-    // Ejecutar las actualizaciones en paralelo
+  
+    const updateRequests = [
+      this.usuarioService.actualizar(this.clienteId, cliente)
+    ];
+  
+   
+  
     forkJoin(updateRequests).subscribe({
       next: () => {
         alert('Cliente y Login actualizados correctamente.');
@@ -147,6 +160,7 @@ export default class FormularioUsuarioComponent implements OnInit {
       }
     });
   }
+  
 
   navegarCliente() {
     this.router.navigate(['/sidebar/usuario'], { relativeTo: this.route });
