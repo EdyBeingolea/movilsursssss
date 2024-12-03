@@ -6,7 +6,7 @@ import { Cliente } from '../../../core/interfaces/cliente';
 import { Login } from '../../../core/interfaces/login';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
 import { LoginServicesService } from '../../../core/services/login-services.service';
-import { forkJoin, switchMap } from 'rxjs';
+import { forkJoin, Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-formulario-usuario',
@@ -16,10 +16,9 @@ import { forkJoin, switchMap } from 'rxjs';
   styles: ``
 })
 export default class FormularioUsuarioComponent implements OnInit {
-
   clienteId!: string;
-  clienteFrom: FormGroup = new FormGroup<any>({});
-  loginFrom: FormGroup = new FormGroup<any>({});
+  clienteFrom: FormGroup = new FormGroup<any>('');
+  loginFrom: FormGroup = new FormGroup<any>('');
   cliente!: Cliente | null;
   login!: Login | null;
   private fb = inject(FormBuilder);
@@ -53,7 +52,7 @@ export default class FormularioUsuarioComponent implements OnInit {
       correo: ['', Validators.required],
       direccion: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
-      fotoPerfil: ['', Validators.required],
+      fotoPerfil: [''],
       fechaRegistro: [today, Validators.required],
       estadoCliente: ['A', Validators.required],
     });
@@ -70,17 +69,25 @@ export default class FormularioUsuarioComponent implements OnInit {
   buscarId(id: string) {
     forkJoin({
       cliente: this.usuarioService.listarPorId(id),
-      logins: this.loginService.listarTodos() // Busca todos los logins para relacionarlos con el cliente
+      logins: this.loginService.listarTodos() // Obtenemos todos los logins
     }).subscribe({
       next: ({ cliente, logins }) => {
+        // Asigna el cliente recuperado
         this.cliente = cliente;
         this.clienteFrom.patchValue(cliente);
-
-        // Buscar el login relacionado con el cliente por clienteId
+  
+        // Busca el login relacionado con el cliente por clienteId
         const relatedLogin = logins.find(l => l.clienteId === cliente.id);
+  
         if (relatedLogin) {
+          // Si se encuentra un login relacionado, asignarlo y parchar el formulario
           this.login = relatedLogin;
-          this.loginFrom.patchValue(relatedLogin);
+          this.loginFrom.patchValue({
+            usuario: relatedLogin.usuario,
+            password: relatedLogin.password
+          });
+        } else {
+          console.warn('No se encontró un login relacionado con el cliente.');
         }
       },
       error: (err) => {
@@ -88,31 +95,29 @@ export default class FormularioUsuarioComponent implements OnInit {
       }
     });
   }
-
+  
   guardarCliente() {
     if (!this.clienteFrom.valid || !this.loginFrom.valid) {
       alert('Por favor, completa los formularios correctamente.');
       return;
     }
-  
+
     const cliente: Cliente = { ...this.clienteFrom.value };
     const login: Login = { ...this.loginFrom.value };
-  
-    let saveOrUpdate$;
-  
+
+    let saveOrUpdate$: Observable<any>;
+
     if (this.clienteId) {
-      // Actualiza si el cliente ya existe
       saveOrUpdate$ = this.usuarioService.actualizar(this.clienteId, cliente).pipe(
         switchMap((updatedCliente: Cliente) => {
           login.clienteId = updatedCliente.id;
           if (this.login?.id) {
             return this.loginService.actualizar(this.login.id, login);
           }
-          return this.loginService.guardar(login); // En caso de que no haya un login asociado
+          return this.loginService.guardar(login);
         })
       );
     } else {
-      // Crea un nuevo cliente
       saveOrUpdate$ = this.usuarioService.guardar(cliente).pipe(
         switchMap((savedCliente: Cliente) => {
           login.clienteId = savedCliente.id;
@@ -120,7 +125,7 @@ export default class FormularioUsuarioComponent implements OnInit {
         })
       );
     }
-  
+
     saveOrUpdate$.subscribe({
       next: () => {
         alert('Cliente y Login guardados correctamente.');
@@ -132,23 +137,25 @@ export default class FormularioUsuarioComponent implements OnInit {
       }
     });
   }
-  
 
   actualizarCliente() {
     if (!this.clienteFrom.valid || !this.loginFrom.valid) {
       alert('Por favor, completa los datos correctamente.');
       return;
     }
-  
+
     const cliente: Cliente = { ...this.clienteFrom.value };
     const login: Login = { ...this.loginFrom.value };
-  
-    const updateRequests = [
+
+    const updateRequests: Array<Observable<any>> = [
       this.usuarioService.actualizar(this.clienteId, cliente)
     ];
-  
-   
-  
+
+    if (this.login && this.login.id) {
+      login.clienteId = this.clienteId;
+      updateRequests.push(this.loginService.actualizar(this.login.id, login));
+    }
+
     forkJoin(updateRequests).subscribe({
       next: () => {
         alert('Cliente y Login actualizados correctamente.');
@@ -160,7 +167,6 @@ export default class FormularioUsuarioComponent implements OnInit {
       }
     });
   }
-  
 
   navegarCliente() {
     this.router.navigate(['/sidebar/usuario'], { relativeTo: this.route });

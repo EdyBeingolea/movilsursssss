@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
-import { ActivatedRoute, Router, RouterEvent, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Cliente } from '../../../core/interfaces/cliente';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-usuario',
@@ -10,27 +11,55 @@ import { Cliente } from '../../../core/interfaces/cliente';
   templateUrl: './usuario.component.html',
 })
 export default class UsuarioComponent implements OnInit {
-
-  mostardatos : boolean = false;
+  mostardatos: boolean = false;
   datosmodal: any = null;
-  
+
   cliente: Cliente[] = [];
   private service = inject(UsuarioServiceService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-
   ngOnInit(): void {
     this.listar();
   }
 
-  listar(){
+  listar() {
     this.service.listarTodos().subscribe(data => {
       this.cliente = data;
     });
   }
 
-  verdatos(id: string){
+  // New method to export to Excel
+  exportToExcel() {
+    // Prepare data for Excel export
+    const exportData = this.cliente.map(cli => ({
+      'ID': cli.id,
+      'codigoCliente': cli.codigo,
+      'Nombres': cli.nombres,
+      'Apellidos': cli.apellidos,
+      'Tipo Documento': cli.tipoDocumento,
+      'Número Documento': cli.numeroDocumento,
+      'Teléfono': cli.telefono,
+      'Correo': cli.correo,
+      'Dirección': cli.direccion,
+      'Fecha Nacimiento': cli.fechaNacimiento,
+      'Fecha Registro': cli.fechaRegistro,
+      'Estado Cliente': cli.estadoCliente
+    }));
+
+    // Create worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    // Create workbook and add worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Clientes');
+
+    // Generate and save Excel file
+    XLSX.writeFile(workbook, 'Listado_Clientes.xlsx');
+  }
+
+  // Existing methods remain the same...
+  verdatos(id: string) {
     this.service.listarPorId(id).subscribe(data => {
       console.log(data);
       this.mostardatos = true;
@@ -38,20 +67,16 @@ export default class UsuarioComponent implements OnInit {
     });
   }
 
-  cerrardatos(){
+  cerrardatos() {
     this.mostardatos = false;
   }
 
-  navigateRegisterPerson(){
+  navigateRegisterPerson() {
     this.router.navigate(['register'], { relativeTo: this.route }).then();
   }
 
-
-  actualizarCliente(cliente : Cliente){
+  actualizarCliente(cliente: Cliente) {
     this.service.selectCliente = cliente
-    this.router.navigate([cliente.id],{relativeTo: this.route}).then();
+    this.router.navigate([cliente.id], { relativeTo: this.route }).then();
   }
-
-
-
 }

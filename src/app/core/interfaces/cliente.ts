@@ -11,7 +11,7 @@ export interface Cliente {
     direccion:       string;
     fechaNacimiento: string;
     fechaRegistro?:   string;
-    fotoPerfil:      string;
+    fotoPerfil?:      string;
     estadoCliente:   string;
     id:              string;
     login:           Login[];
