@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Login } from '../interfaces/login';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +22,11 @@ export class LoginServicesService {
   guardar(login: Login){
     return this.http.post<Login>(this.url, login);
   }
+
+  actualizar(id: string, login: Login) {
+    return this.http.put<Login>(`${this.url}/${id}`, login);
+  }
+
+ 
+  
 }

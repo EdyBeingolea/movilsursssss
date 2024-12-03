@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioServiceService } from '../../../core/services/usuario-service.service';
 import { ActivatedRoute, Router, RouterEvent, RouterLink, RouterOutlet } from '@angular/router';
 import { Cliente } from '../../../core/interfaces/cliente';
-import { LoginServicesService } from '../../../core/services/login-services.service';
 
 @Component({
   selector: 'app-usuario',
@@ -44,7 +43,15 @@ export default class UsuarioComponent implements OnInit {
   }
 
   navigateRegisterPerson(){
-    this.router.navigate(['register'], { relativeTo: this.route });
+    this.router.navigate(['register'], { relativeTo: this.route }).then();
   }
+
+
+  actualizarCliente(cliente : Cliente){
+    this.service.selectCliente = cliente
+    this.router.navigate([cliente.id],{relativeTo: this.route}).then();
+  }
+
+
 
 }
