@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import FormularioUsuarioComponent from './feature/usuario/formulario-usuario/formulario-usuario.component';
+import { FormularioAgregarComponent } from './feature/usuario/formulario-agregar/formulario-agregar.component';
+import { FormularioEditarComponent } from './feature/usuario/formulario-editar/formulario-editar.component';
 
 export const routes: Routes = [
     {
@@ -20,12 +21,13 @@ export const routes: Routes = [
             },
             {
                 path: 'usuario/register',
-                component: FormularioUsuarioComponent
+                component: FormularioAgregarComponent
             },
             {
                 path: 'usuario/:id',
-                component: FormularioUsuarioComponent
+                component: FormularioEditarComponent
             },
+           
             {
                 path: 'conductor',
                 loadComponent: () => import('./feature/conductores/listar-conductores/conductores.component')

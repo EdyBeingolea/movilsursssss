@@ -7,24 +7,24 @@ import { Cliente } from '../interfaces/cliente';
 })
 export class UsuarioServiceService {
 
-  private url = 'https://670fb779a85f4164ef2b9edc.mockapi.io/api/v1/cliente';
+  private url = 'http://18.189.235.228:8081/api/client';
   private http = inject(HttpClient);
 
   selectCliente!: Cliente | null;
 
   listarTodos() {
-    return this.http.get<Cliente[]>(this.url);
+    return this.http.get<Cliente[]>(`${this.url}/active`);
   }
 
-  listarPorId(id: string) {
+  listarPorId(id: number) {
     return this.http.get<Cliente>(`${this.url}/${id}`);
   }
 
   guardar(cliente: Cliente) {
-    return this.http.post<Cliente>(this.url, cliente);
+    return this.http.post<Cliente>(`${this.url}/register`, cliente);
   }
 
-  actualizar(id: string, cliente: Cliente) {
+  actualizar(id: number, cliente: Cliente) {
     return this.http.put<Cliente>(`${this.url}/${id}`, cliente);
   }
 

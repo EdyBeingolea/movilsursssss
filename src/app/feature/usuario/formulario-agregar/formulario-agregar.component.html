@@ -1,0 +1,68 @@
+<section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+    <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Agregar Cliente</h2>
+
+    <form [formGroup]="clienteForm">
+        <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="username">Usuario</label>
+                <input type="text" formControlName="username"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="password">Password</label>
+                <input type="password" formControlName="password"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Nombres</label>
+                <input type="text" formControlName="firstName"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Apellidos</label>
+                <input type="text" formControlName="lastName"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Documento de
+                    Identificacio</label>
+                <input type="text" formControlName="documentType"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Numero de Documento</label>
+                <input type="text" formControlName="documentNumber"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Numero de Celular</label>
+                <input type="text" formControlName="phone"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Email o Gmail</label>
+                <input type="email" formControlName="email"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Direccion</label>
+                <input type="text" formControlName="address"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+            <div>
+                <label class="text-gray-700 dark:text-gray-200" for="emailAddress">Fecha de Nacimiento</label>
+                <input type="date" formControlName="birthDate"
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+            </div>
+
+        </div>
+
+        <div class="flex justify-end mt-6">
+            <button (click)="registrarCliente()"
+                class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-gray-600">Save</button>
+        </div>
+
+    </form>
+</section>

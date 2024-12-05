@@ -33,18 +33,18 @@ export default class UsuarioComponent implements OnInit {
   exportToExcel() {
     // Prepare data for Excel export
     const exportData = this.cliente.map(cli => ({
-      'ID': cli.id,
-      'codigoCliente': cli.codigo,
-      'Nombres': cli.nombres,
-      'Apellidos': cli.apellidos,
-      'Tipo Documento': cli.tipoDocumento,
-      'Número Documento': cli.numeroDocumento,
-      'Teléfono': cli.telefono,
-      'Correo': cli.correo,
-      'Dirección': cli.direccion,
-      'Fecha Nacimiento': cli.fechaNacimiento,
-      'Fecha Registro': cli.fechaRegistro,
-      'Estado Cliente': cli.estadoCliente
+      'ID': cli.clientId,
+      'codigoCliente': cli.code,
+      'Nombres': cli.firstName,
+      'Apellidos': cli.lastName,
+      'Tipo Documento': cli.documentType,
+      'Número Documento': cli.documentNumber,
+      'Teléfono': cli.phone,
+      'Correo': cli.email,
+      'Dirección': cli.address,
+      'Fecha Nacimiento': cli.birthDate,
+      'Fecha Registro': cli.registrationDate,
+      'Estado Cliente': cli.clientStatus,
     }));
 
     // Create worksheet
@@ -59,7 +59,7 @@ export default class UsuarioComponent implements OnInit {
   }
 
   // Existing methods remain the same...
-  verdatos(id: string) {
+  verdatos(id: number) {
     this.service.listarPorId(id).subscribe(data => {
       console.log(data);
       this.mostardatos = true;
@@ -77,6 +77,6 @@ export default class UsuarioComponent implements OnInit {
 
   actualizarCliente(cliente: Cliente) {
     this.service.selectCliente = cliente
-    this.router.navigate([cliente.id], { relativeTo: this.route }).then();
+    this.router.navigate([cliente.clientId], { relativeTo: this.route }).then();
   }
 }

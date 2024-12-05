@@ -1,7 +1,7 @@
 export interface Login {
-    usuario:   string;
-    password:  string;
-    categoria: string;
-    id?:        string;
-    clienteId?: string;
+    loginId:      number;
+    username:     string;
+    password:     string;
+    creationDate: string;
+    userRole:     string;
 }

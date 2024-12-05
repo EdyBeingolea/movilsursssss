@@ -38,40 +38,40 @@
         <tr class="hover:bg-gray-50">
           <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
             <div class="relative h-10 w-10">
-              <img class="h-full w-full rounded-full object-cover object-center" src="{{cli.fotoPerfil}}" alt="" />
+              <img class="h-full w-full rounded-full object-cover object-center" src="{{cli.profilePicture}}" alt="" />
               <span class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
             </div>
             <div class="text-sm">
-              <div class="font-medium text-gray-700">{{cli.nombres}}</div>
-              <div class="text-gray-400"> {{cli.apellidos}} </div>
+              <div class="font-medium text-gray-700">{{cli.firstName}}</div>
+              <div class="text-gray-400"> {{cli.lastName}} </div>
             </div>
           </th>
           <td class="px-6 py-4">
             <span
               class="inline-flex clis-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600">
               <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
-              {{cli.tipoDocumento}}
+              {{cli.documentType}}
             </span>
           </td>
-          <td class="px-6 py-4">{{cli.numeroDocumento}}</td>
+          <td class="px-6 py-4">{{cli.documentNumber}}</td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              {{cli.telefono}}
+              {{cli.phone}}
             </div>
           </td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              {{cli.correo}}
+              {{cli.email}}
             </div>
           </td>
           <td class="px-6 py-4">
             <div class="flex gap-2">
-              {{cli.direccion}}
+              {{cli.address}}
             </div>
           </td>
           <td class="px-6 py-4">
             <div class="flex justify-end gap-4">
-              <button (click)="verdatos(cli.id.toString())">
+              <button (click)="verdatos(cli.clientId)">
                 <div class="w-4 mr-2 transform hover:text-purple-500 ">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     class="h-6 w-6" x-tooltip="tooltip">
@@ -92,16 +92,16 @@
                 <div class="bg-white rounded-lg p-8 h-[600px] w-[800px] shadow-2xl">
                   <h2 class="text-2xl font-bold mb-6 text-center">Información del Usuario</h2>
                   <div class="space-y-4">
-                    <p><strong>Nombre:</strong> {{datosmodal?.nombres}}</p>
-                    <p><strong>Apellidos:</strong> {{datosmodal?.apellidos}}</p>
-                    <p><strong>Tipo Documento:</strong> {{datosmodal?.tipoDocumento}}</p>
-                    <p><strong>Número Documento:</strong> {{datosmodal?.numeroDocumento}}</p>
-                    <p><strong>Teléfono:</strong> {{datosmodal?.telefono}}</p>
-                    <p><strong>Correo:</strong> {{datosmodal?.correo}}</p>
-                    <p><strong>Dirección:</strong> {{datosmodal?.direccion}}</p>
-                    <p><strong>Fecha de Nacimiento:</strong> {{datosmodal?.fechaNacimiento}}</p>
-                    <p><strong>Fecha de Registro:</strong> {{datosmodal?.fechaRegistro}}</p>
-                    <p><strong>Estado Cliente:</strong> {{datosmodal?.estadoCliente}}</p>
+                    <p><strong>Nombre:</strong> {{datosmodal?.firstName}}</p>
+                    <p><strong>Apellidos:</strong> {{datosmodal?.lastName}}</p>
+                    <p><strong>Tipo Documento:</strong> {{datosmodal?.documentType}}</p>
+                    <p><strong>Número Documento:</strong> {{datosmodal?.documentNumber}}</p>
+                    <p><strong>Teléfono:</strong> {{datosmodal?.phone}}</p>
+                    <p><strong>Correo:</strong> {{datosmodal?.email}}</p>
+                    <p><strong>Dirección:</strong> {{datosmodal?.address}}</p>
+                    <p><strong>Fecha de Nacimiento:</strong> {{datosmodal?.birthDate}}</p>
+                    <p><strong>Fecha de Registro:</strong> {{datosmodal?.registrationDate}}</p>
+                    <p><strong>Estado Cliente:</strong> {{datosmodal?.clientStatus}}</p>
                   </div>
                   <div class="mt-8 flex justify-end">
                     <button
